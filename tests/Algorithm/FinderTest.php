@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace CodelyTV\FinderKataTest\Algorithm;
 
-use CodelyTV\FinderKata\Algorithm\Finder;
+use CodelyTV\FinderKata\Algorithm\PersonBirthdateDifferenceFinder;
 use CodelyTV\FinderKata\Algorithm\FT;
 use CodelyTV\FinderKata\Algorithm\Person;
 use PHPUnit\Framework\TestCase;
@@ -35,7 +35,7 @@ final class FinderTest extends TestCase
     public function should_return_empty_when_given_empty_list()
     {
         $list   = [];
-        $finder = new Finder($list);
+        $finder = new PersonBirthdateDifferenceFinder($list);
 
         $result = $finder->find(FT::ONE);
 
@@ -48,7 +48,7 @@ final class FinderTest extends TestCase
     {
         $list   = [];
         $list[] = $this->sue;
-        $finder = new Finder($list);
+        $finder = new PersonBirthdateDifferenceFinder($list);
 
         $result = $finder->find(FT::ONE);
 
@@ -62,7 +62,7 @@ final class FinderTest extends TestCase
         $list   = [];
         $list[] = $this->sue;
         $list[] = $this->greg;
-        $finder = new Finder($list);
+        $finder = new PersonBirthdateDifferenceFinder($list);
 
         $result = $finder->find(FT::ONE);
 
@@ -76,7 +76,7 @@ final class FinderTest extends TestCase
         $list   = [];
         $list[] = $this->mike;
         $list[] = $this->greg;
-        $finder = new Finder($list);
+        $finder = new PersonBirthdateDifferenceFinder($list);
 
         $result = $finder->find(FT::TWO);
 
@@ -92,7 +92,7 @@ final class FinderTest extends TestCase
         $list[] = $this->sarah;
         $list[] = $this->mike;
         $list[] = $this->greg;
-        $finder = new Finder($list);
+        $finder = new PersonBirthdateDifferenceFinder($list);
 
         $result = $finder->find(FT::TWO);
 
@@ -110,7 +110,7 @@ final class FinderTest extends TestCase
         $list[] = $this->sarah;
         $list[] = $this->mike;
         $list[] = $this->greg;
-        $finder = new Finder($list);
+        $finder = new PersonBirthdateDifferenceFinder($list);
 
         $result = $finder->find(FT::ONE);
 

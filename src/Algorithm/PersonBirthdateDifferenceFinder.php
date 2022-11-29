@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace CodelyTV\FinderKata\Algorithm;
 
-final class Finder
+final class PersonBirthdateDifferenceFinder
 {
     /** @var Person[] */
     private $persons;
@@ -19,11 +19,11 @@ final class Finder
 
     public function find(int $ft): PersonCalculationResult
     {
-        /** @var PersonCalculationResult[] $tr */
-        $tr = [];
+        /** @var PersonCalculationResult[] $results */
+        $results = [];
 
         $iteration = 0;
-        foreach ($this->persons as $key => $person) {
+        foreach ($this->persons as $person) {
             for ($j = $iteration + 1; $j < count($this->persons); $j++) {
 
                 if ($this->persons[$iteration]->getBirthDate() < $this->persons[$j]->getBirthDate()) {
@@ -48,18 +48,18 @@ final class Finder
                     );
                 }
 
-                $tr[] = $result;
+                $results[] = $result;
             }
             $iteration++;
         }
 
-        if (count($tr) < 1) {
+        if (count($results) < 1) {
             return new PersonCalculationResult();
         }
 
-        $answer = $tr[0];
+        $answer = $results[0];
 
-        foreach ($tr as $result) {
+        foreach ($results as $result) {
             switch ($ft) {
                 case FT::ONE:
                     if ($result->getDifference() < $answer->getDifference()) {
