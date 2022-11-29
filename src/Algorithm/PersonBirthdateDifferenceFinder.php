@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace CodelyTV\FinderKata\Algorithm;
 
@@ -25,18 +25,7 @@ final class PersonBirthdateDifferenceFinder
             return new PersonCalculationResult();
         }
 
-        $personCalculationResult = $results[0];
-
-        foreach ($results as $result) {
-            if ($ft === FT::ONE && $result->getDifference() < $personCalculationResult->getDifference()) {
-                $personCalculationResult = $result;
-            }
-            if ($ft === FT::TWO && $result->getDifference() > $personCalculationResult->getDifference()) {
-                $personCalculationResult = $result;
-            }
-        }
-
-        return $personCalculationResult;
+        return $this->findFinalResult($results, $ft);
     }
 
     private function getPersonBirthdateCalculationResults(): array
@@ -52,28 +41,46 @@ final class PersonBirthdateDifferenceFinder
                     $secondPerson = $this->persons[$j];
                     $difference = $secondPerson->getBirthDate()->getTimestamp() - $firstPerson->getBirthDate()->getTimestamp();
 
-                    $result = new PersonCalculationResult(
+                    $results[] = new PersonCalculationResult(
                         $firstPerson,
                         $secondPerson,
                         $difference
                     );
-                } else {
-                    $firstPerson = $this->persons[$j];
-                    $secondPerson = $this->persons[$iteration];
-                    $difference = $secondPerson->getBirthDate()->getTimestamp() - $firstPerson->getBirthDate()->getTimestamp();
 
-                    $result = new PersonCalculationResult(
-                        $firstPerson,
-                        $secondPerson,
-                        $difference
-                    );
+                    continue;
                 }
 
-                $results[] = $result;
+                $firstPerson = $this->persons[$j];
+                $secondPerson = $this->persons[$iteration];
+                $difference = $secondPerson->getBirthDate()->getTimestamp() - $firstPerson->getBirthDate()->getTimestamp();
+
+                $results[] = new PersonCalculationResult(
+                    $firstPerson,
+                    $secondPerson,
+                    $difference
+                );
             }
             $iteration++;
         }
 
         return $results;
+    }
+
+    private function findFinalResult(array $results, int $ft)
+    {
+        $personCalculationResult = $results[0];
+
+        foreach ($results as $result) {
+            if ($ft === FT::ONE && $result->getDifference() < $personCalculationResult->getDifference()) {
+                $personCalculationResult = $result;
+                continue;
+            }
+
+            if ($ft === FT::TWO && $result->getDifference() > $personCalculationResult->getDifference()) {
+                $personCalculationResult = $result;
+            }
+        }
+
+        return $personCalculationResult;
     }
 }
