@@ -66,21 +66,20 @@ final class PersonBirthdateDifferenceFinder
         return $results;
     }
 
-    private function findDifference(int $differenceType, array $results)
+    private function findDifference(int $differenceType, array $persons): PersonDifferenceResult
     {
-        $personDifferenceResult = $results[0];
-
-        foreach ($results as $result) {
-            if ($differenceType === Difference::CLOSEST && $result->getDifference() < $personDifferenceResult->getDifference()) {
-                $personDifferenceResult = $result;
-                continue;
-            }
-
-            if ($differenceType === Difference::FURTHEST && $result->getDifference() > $personDifferenceResult->getDifference()) {
-                $personDifferenceResult = $result;
-            }
+        $personsDifferencesArray = [];
+        foreach ($persons as $person) {
+            $personsDifferencesArray[$person->getDifference()] = $person;
         }
 
-        return $personDifferenceResult;
+        // Sort it by keys
+        ksort($personsDifferencesArray);
+
+        if ($differenceType === Difference::CLOSEST) {
+            return array_values($personsDifferencesArray)[0];
+        }
+
+        return end($personsDifferencesArray);
     }
 }
