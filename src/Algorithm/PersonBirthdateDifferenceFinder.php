@@ -24,13 +24,13 @@ final class PersonBirthdateDifferenceFinder
      */
     public function find(int $differenceType): PersonDifferenceResult
     {
-        $results = $this->getPersonBirthdateCalculationResults();
+        $personDifferencesResults = $this->getPersonBirthdateCalculationResults();
 
-        if (count($results) <= 0) {
+        if ($personDifferencesResults === []) {
             return new PersonDifferenceResult();
         }
 
-        return $this->findDifference($differenceType, $results);
+        return $this->findDifference($differenceType, $personDifferencesResults);
     }
 
     /**
