@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace CodelyTV\FinderKata\Algorithm;
 
-final class PersonCalculationResult
+final class PersonDifferenceResult
 {
     /** @var ?Person */
     private $firstPerson;

@@ -22,12 +22,12 @@ final class PersonBirthdateDifferenceFinder
     /**
      * @throws Exception
      */
-    public function find(int $differenceType): PersonCalculationResult
+    public function find(int $differenceType): PersonDifferenceResult
     {
         $results = $this->getPersonBirthdateCalculationResults();
 
         if (count($results) <= 0) {
-            return new PersonCalculationResult();
+            return new PersonDifferenceResult();
         }
 
         return $this->findDifference($differenceType, $results);
@@ -38,7 +38,7 @@ final class PersonBirthdateDifferenceFinder
      */
     private function getPersonBirthdateCalculationResults(): array
     {
-        /** @var PersonCalculationResult[] $results */
+        /** @var PersonDifferenceResult[] $results */
         $results = [];
         $iteration = 0;
         foreach ($this->persons as $person) {
@@ -54,7 +54,7 @@ final class PersonBirthdateDifferenceFinder
 
                 $difference = $secondPerson->getBirthDate()->getTimestamp() - $firstPerson->getBirthDate()->getTimestamp();
 
-                $results[] = new PersonCalculationResult(
+                $results[] = new PersonDifferenceResult(
                     $firstPerson,
                     $secondPerson,
                     $difference
@@ -68,19 +68,19 @@ final class PersonBirthdateDifferenceFinder
 
     private function findDifference(int $differenceType, array $results)
     {
-        $personCalculationResult = $results[0];
+        $personDifferenceResult = $results[0];
 
         foreach ($results as $result) {
-            if ($differenceType === Difference::CLOSEST && $result->getDifference() < $personCalculationResult->getDifference()) {
-                $personCalculationResult = $result;
+            if ($differenceType === Difference::CLOSEST && $result->getDifference() < $personDifferenceResult->getDifference()) {
+                $personDifferenceResult = $result;
                 continue;
             }
 
-            if ($differenceType === Difference::FURTHEST && $result->getDifference() > $personCalculationResult->getDifference()) {
-                $personCalculationResult = $result;
+            if ($differenceType === Difference::FURTHEST && $result->getDifference() > $personDifferenceResult->getDifference()) {
+                $personDifferenceResult = $result;
             }
         }
 
-        return $personCalculationResult;
+        return $personDifferenceResult;
     }
 }
