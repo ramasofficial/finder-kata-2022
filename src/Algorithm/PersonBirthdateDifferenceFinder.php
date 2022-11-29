@@ -19,9 +19,30 @@ final class PersonBirthdateDifferenceFinder
 
     public function find(int $ft): PersonCalculationResult
     {
+        $results = $this->getPersonBirthdateCalculationResults();
+
+        if (count($results) <= 0) {
+            return new PersonCalculationResult();
+        }
+
+        $personCalculationResult = $results[0];
+
+        foreach ($results as $result) {
+            if ($ft === FT::ONE && $result->getDifference() < $personCalculationResult->getDifference()) {
+                $personCalculationResult = $result;
+            }
+            if ($ft === FT::TWO && $result->getDifference() > $personCalculationResult->getDifference()) {
+                $personCalculationResult = $result;
+            }
+        }
+
+        return $personCalculationResult;
+    }
+
+    private function getPersonBirthdateCalculationResults(): array
+    {
         /** @var PersonCalculationResult[] $results */
         $results = [];
-
         $iteration = 0;
         foreach ($this->persons as $person) {
             for ($j = $iteration + 1; $j < count($this->persons); $j++) {
@@ -53,28 +74,6 @@ final class PersonBirthdateDifferenceFinder
             $iteration++;
         }
 
-        if (count($results) < 1) {
-            return new PersonCalculationResult();
-        }
-
-        $answer = $results[0];
-
-        foreach ($results as $result) {
-            switch ($ft) {
-                case FT::ONE:
-                    if ($result->getDifference() < $answer->getDifference()) {
-                        $answer = $result;
-                    }
-                    break;
-
-                case FT::TWO:
-                    if ($result->getDifference() > $answer->getDifference()) {
-                        $answer = $result;
-                    }
-                    break;
-            }
-        }
-
-        return $answer;
+        return $results;
     }
 }
