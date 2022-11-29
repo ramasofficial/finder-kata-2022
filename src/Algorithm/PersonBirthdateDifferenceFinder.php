@@ -19,7 +19,10 @@ final class PersonBirthdateDifferenceFinder
         $this->persons = $persons;
     }
 
-    public function find(int $ft): PersonCalculationResult
+    /**
+     * @throws Exception
+     */
+    public function find(int $differenceType): PersonCalculationResult
     {
         $results = $this->getPersonBirthdateCalculationResults();
 
@@ -27,7 +30,7 @@ final class PersonBirthdateDifferenceFinder
             return new PersonCalculationResult();
         }
 
-        return $this->findFinalResult($results, $ft);
+        return $this->findDifference($differenceType, $results);
     }
 
     /**
@@ -41,22 +44,14 @@ final class PersonBirthdateDifferenceFinder
         foreach ($this->persons as $person) {
             for ($j = $iteration + 1; $j < count($this->persons); $j++) {
 
-                if ($this->persons[$iteration]->getBirthDate() < $this->persons[$j]->getBirthDate()) {
-                    $firstPerson = $this->persons[$iteration];
+                if ($person->getBirthDate() < $this->persons[$j]->getBirthDate()) {
+                    $firstPerson = $person;
                     $secondPerson = $this->persons[$j];
-                    $difference = $secondPerson->getBirthDate()->getTimestamp() - $firstPerson->getBirthDate()->getTimestamp();
-
-                    $results[] = new PersonCalculationResult(
-                        $firstPerson,
-                        $secondPerson,
-                        $difference
-                    );
-
-                    continue;
+                } else {
+                    $firstPerson = $this->persons[$j];
+                    $secondPerson = $person;
                 }
 
-                $firstPerson = $this->persons[$j];
-                $secondPerson = $this->persons[$iteration];
                 $difference = $secondPerson->getBirthDate()->getTimestamp() - $firstPerson->getBirthDate()->getTimestamp();
 
                 $results[] = new PersonCalculationResult(
@@ -71,17 +66,17 @@ final class PersonBirthdateDifferenceFinder
         return $results;
     }
 
-    private function findFinalResult(array $results, int $ft)
+    private function findDifference(int $differenceType, array $results)
     {
         $personCalculationResult = $results[0];
 
         foreach ($results as $result) {
-            if ($ft === Difference::CLOSEST && $result->getDifference() < $personCalculationResult->getDifference()) {
+            if ($differenceType === Difference::CLOSEST && $result->getDifference() < $personCalculationResult->getDifference()) {
                 $personCalculationResult = $result;
                 continue;
             }
 
-            if ($ft === Difference::FURTHEST && $result->getDifference() > $personCalculationResult->getDifference()) {
+            if ($differenceType === Difference::FURTHEST && $result->getDifference() > $personCalculationResult->getDifference()) {
                 $personCalculationResult = $result;
             }
         }
