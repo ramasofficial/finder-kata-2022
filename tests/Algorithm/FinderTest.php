@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace CodelyTV\FinderKataTest\Algorithm;
 
 use CodelyTV\FinderKata\Algorithm\PersonBirthdateDifferenceFinder;
-use CodelyTV\FinderKata\Algorithm\FT;
+use CodelyTV\FinderKata\Algorithm\Difference;
 use CodelyTV\FinderKata\Algorithm\Person;
 use PHPUnit\Framework\TestCase;
 
@@ -37,7 +37,7 @@ final class FinderTest extends TestCase
         $list   = [];
         $finder = new PersonBirthdateDifferenceFinder($list);
 
-        $result = $finder->find(FT::ONE);
+        $result = $finder->find(Difference::CLOSEST);
 
         $this->assertEquals(null, $result->getFirstPerson());
         $this->assertEquals(null, $result->getSecondPerson());
@@ -50,7 +50,7 @@ final class FinderTest extends TestCase
         $list[] = $this->sue;
         $finder = new PersonBirthdateDifferenceFinder($list);
 
-        $result = $finder->find(FT::ONE);
+        $result = $finder->find(Difference::CLOSEST);
 
         $this->assertEquals(null, $result->getFirstPerson());
         $this->assertEquals(null, $result->getSecondPerson());
@@ -64,7 +64,7 @@ final class FinderTest extends TestCase
         $list[] = $this->greg;
         $finder = new PersonBirthdateDifferenceFinder($list);
 
-        $result = $finder->find(FT::ONE);
+        $result = $finder->find(Difference::CLOSEST);
 
         $this->assertEquals($this->sue, $result->getFirstPerson());
         $this->assertEquals($this->greg, $result->getSecondPerson());
@@ -78,7 +78,7 @@ final class FinderTest extends TestCase
         $list[] = $this->greg;
         $finder = new PersonBirthdateDifferenceFinder($list);
 
-        $result = $finder->find(FT::TWO);
+        $result = $finder->find(Difference::FURTHEST);
 
         $this->assertEquals($this->greg, $result->getFirstPerson());
         $this->assertEquals($this->mike, $result->getSecondPerson());
@@ -94,7 +94,7 @@ final class FinderTest extends TestCase
         $list[] = $this->greg;
         $finder = new PersonBirthdateDifferenceFinder($list);
 
-        $result = $finder->find(FT::TWO);
+        $result = $finder->find(Difference::FURTHEST);
 
         $this->assertEquals($this->sue, $result->getFirstPerson());
         $this->assertEquals($this->sarah, $result->getSecondPerson());
@@ -112,7 +112,7 @@ final class FinderTest extends TestCase
         $list[] = $this->greg;
         $finder = new PersonBirthdateDifferenceFinder($list);
 
-        $result = $finder->find(FT::ONE);
+        $result = $finder->find(Difference::CLOSEST);
 
         $this->assertEquals($this->sue, $result->getFirstPerson());
         $this->assertEquals($this->greg, $result->getSecondPerson());

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace CodelyTV\FinderKata\Algorithm;
 
+use Exception;
+
 final class PersonBirthdateDifferenceFinder
 {
     /** @var Person[] */
@@ -28,6 +30,9 @@ final class PersonBirthdateDifferenceFinder
         return $this->findFinalResult($results, $ft);
     }
 
+    /**
+     * @throws Exception
+     */
     private function getPersonBirthdateCalculationResults(): array
     {
         /** @var PersonCalculationResult[] $results */
@@ -71,12 +76,12 @@ final class PersonBirthdateDifferenceFinder
         $personCalculationResult = $results[0];
 
         foreach ($results as $result) {
-            if ($ft === FT::ONE && $result->getDifference() < $personCalculationResult->getDifference()) {
+            if ($ft === Difference::CLOSEST && $result->getDifference() < $personCalculationResult->getDifference()) {
                 $personCalculationResult = $result;
                 continue;
             }
 
-            if ($ft === FT::TWO && $result->getDifference() > $personCalculationResult->getDifference()) {
+            if ($ft === Difference::FURTHEST && $result->getDifference() > $personCalculationResult->getDifference()) {
                 $personCalculationResult = $result;
             }
         }

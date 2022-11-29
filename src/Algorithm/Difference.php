@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace CodelyTV\FinderKata\Algorithm;
 
-interface FT
+final class Difference
 {
-    const ONE = 1;
-    const TWO = 2;
+    const CLOSEST = 1;
+    const FURTHEST = 2;
 }
