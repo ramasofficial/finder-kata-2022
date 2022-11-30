@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace CodelyTV\FinderKata\Finder\DTO;
 
 use CodelyTV\FinderKata\Finder\Model\Person;
+use Exception;
 
 final class PersonDifferenceResult
 {
     public function __construct(
         private ?Person $firstPerson = null,
-        private ?Person $secondPerson = null,
-        private ?int $difference = null
+        private ?Person $secondPerson = null
     ) {
     }
 
@@ -25,8 +25,15 @@ final class PersonDifferenceResult
         return $this->secondPerson;
     }
 
+    /**
+     * @throws Exception
+     */
     public function getDifference(): ?int
     {
-        return $this->difference;
+        if (!$this->firstPerson || !$this->secondPerson) {
+            return null;
+        }
+
+        return $this->secondPerson->getBirthDate()->getTimestamp() - $this->firstPerson->getBirthDate()->getTimestamp();
     }
 }

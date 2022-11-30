@@ -28,7 +28,7 @@ final class PersonBirthdateDifferenceFinder
      */
     public function find(Difference $difference): PersonDifferenceResult
     {
-        $personDifferencesResults = $this->getPersonBirthdateCalculationResults();
+        $personDifferencesResults = $this->getPersonBirthdateDifferenceCalculationResults();
 
         if ($personDifferencesResults === []) {
             return new PersonDifferenceResult();
@@ -40,7 +40,7 @@ final class PersonBirthdateDifferenceFinder
     /**
      * @throws Exception
      */
-    private function getPersonBirthdateCalculationResults(): array
+    private function getPersonBirthdateDifferenceCalculationResults(): array
     {
         /** @var PersonDifferenceResult[] $results */
         $results = [];
@@ -56,12 +56,9 @@ final class PersonBirthdateDifferenceFinder
                     $secondPerson = $person;
                 }
 
-                $difference = $secondPerson->getBirthDate()->getTimestamp() - $firstPerson->getBirthDate()->getTimestamp();
-
                 $results[] = new PersonDifferenceResult(
                     $firstPerson,
-                    $secondPerson,
-                    $difference
+                    $secondPerson
                 );
             }
             $iteration++;
