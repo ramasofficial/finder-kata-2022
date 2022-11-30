@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CodelyTV\FinderKataTest\Algorithm;
+namespace CodelyTV\FinderKataTest\Finder;
 
 use CodelyTV\FinderKata\Finder\PersonBirthdateDifferenceFinder;
 use CodelyTV\FinderKata\Finder\Enum\Difference;
@@ -10,7 +10,7 @@ use CodelyTV\FinderKata\Finder\Model\Person;
 use Exception;
 use PHPUnit\Framework\TestCase;
 
-final class FinderTest extends TestCase
+final class PersonBirthdateDifferenceFinderTest extends TestCase
 {
     private Person $sue;
     private Person $greg;
@@ -24,6 +24,8 @@ final class FinderTest extends TestCase
         $this->sarah = new Person('Sarah', '1982-01-01');
         $this->mike = new Person('Mike', '1979-01-01');
     }
+
+    // TODO: rewrite tests with DATA PROVIDER
 
     /**
      * @throws Exception
