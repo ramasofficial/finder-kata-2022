@@ -1,27 +1,21 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace CodelyTV\FinderKataTest\Algorithm;
 
 use CodelyTV\FinderKata\Finder\PersonBirthdateDifferenceFinder;
 use CodelyTV\FinderKata\Finder\Enum\Difference;
 use CodelyTV\FinderKata\Finder\Model\Person;
+use Exception;
 use PHPUnit\Framework\TestCase;
 
 final class FinderTest extends TestCase
 {
-    /** @var Person */
-    private $sue;
-
-    /** @var Person */
-    private $greg;
-
-    /** @var Person */
-    private $sarah;
-
-    /** @var Person */
-    private $mike;
+    private Person $sue;
+    private Person $greg;
+    private Person $sarah;
+    private Person $mike;
 
     protected function setUp(): void
     {
@@ -31,10 +25,12 @@ final class FinderTest extends TestCase
         $this->mike = new Person('Mike', '1979-01-01');
     }
 
-    /** @test */
-    public function should_return_empty_when_given_empty_list()
+    /**
+     * @throws Exception
+     */
+    public function testShouldReturnEmptyWhenGivenEmptyList(): void
     {
-        $list   = [];
+        $list = [];
         $finder = new PersonBirthdateDifferenceFinder($list);
 
         $result = $finder->find(Difference::CLOSEST);
@@ -42,10 +38,12 @@ final class FinderTest extends TestCase
         $this->assertNull($result);
     }
 
-    /** @test */
-    public function should_return_empty_when_given_one_person()
+    /**
+     * @throws Exception
+     */
+    public function testShouldReturnEmptyWhenGivenOnePerson(): void
     {
-        $list   = [];
+        $list = [];
         $list[] = $this->sue;
         $finder = new PersonBirthdateDifferenceFinder($list);
 
@@ -54,10 +52,12 @@ final class FinderTest extends TestCase
         $this->assertNull($result);
     }
 
-    /** @test */
-    public function should_return_closest_two_for_two_people()
+    /**
+     * @throws Exception
+     */
+    public function testShouldReturnClosestTwoForTwoPeople(): void
     {
-        $list   = [];
+        $list = [];
         $list[] = $this->sue;
         $list[] = $this->greg;
         $finder = new PersonBirthdateDifferenceFinder($list);
@@ -68,10 +68,12 @@ final class FinderTest extends TestCase
         $this->assertEquals($this->greg, $result->getSecondPerson());
     }
 
-    /** @test */
-    public function should_return_furthest_two_for_two_people()
+    /**
+     * @throws Exception
+     */
+    public function testShouldReturnFurthestTwoForTwoPeople(): void
     {
-        $list   = [];
+        $list = [];
         $list[] = $this->mike;
         $list[] = $this->greg;
         $finder = new PersonBirthdateDifferenceFinder($list);
@@ -82,10 +84,12 @@ final class FinderTest extends TestCase
         $this->assertEquals($this->mike, $result->getSecondPerson());
     }
 
-    /** @test */
-    public function should_return_furthest_two_for_four_people()
+    /**
+     * @throws Exception
+     */
+    public function testShouldReturnFurthestTwoForFourPeople(): void
     {
-        $list   = [];
+        $list = [];
         $list[] = $this->sue;
         $list[] = $this->sarah;
         $list[] = $this->mike;
@@ -99,11 +103,11 @@ final class FinderTest extends TestCase
     }
 
     /**
-     * @test
+     * @throws Exception
      */
-    public function should_return_closest_two_for_four_people()
+    public function testShouldReturnClosestTwoForFourPeople(): void
     {
-        $list   = [];
+        $list = [];
         $list[] = $this->sue;
         $list[] = $this->sarah;
         $list[] = $this->mike;

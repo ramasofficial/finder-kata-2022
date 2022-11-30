@@ -40,24 +40,24 @@ final class PersonBirthdateDifferenceFinder
     {
         /** @var PersonDifferenceResult[] $results */
         $results = [];
-        $iteration = 0;
-        foreach ($this->persons as $person) {
-            for ($j = $iteration + 1; $j < count($this->persons); $j++) {
+        foreach ($this->persons as $key => $person) {
+            unset($this->persons[$key]);
 
-                if ($person->getBirthDate() < $this->persons[$j]->getBirthDate()) {
-                    $firstPerson = $person;
-                    $secondPerson = $this->persons[$j];
-                } else {
-                    $firstPerson = $this->persons[$j];
-                    $secondPerson = $person;
+            foreach ($this->persons as $comparePerson) {
+                if ($person->getBirthDate() < $comparePerson->getBirthDate()) {
+                    $results[] = new PersonDifferenceResult(
+                        $person,
+                        $comparePerson
+                    );
+
+                    continue;
                 }
 
                 $results[] = new PersonDifferenceResult(
-                    $firstPerson,
-                    $secondPerson
+                    $comparePerson,
+                    $person
                 );
             }
-            $iteration++;
         }
 
         return $results;
