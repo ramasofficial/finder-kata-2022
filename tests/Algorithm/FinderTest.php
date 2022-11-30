@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace CodelyTV\FinderKataTest\Algorithm;
 
 use CodelyTV\FinderKata\Finder\PersonBirthdateDifferenceFinder;
-use CodelyTV\FinderKata\Finder\Option\Difference;
+use CodelyTV\FinderKata\Finder\Enum\Difference;
 use CodelyTV\FinderKata\Finder\Model\Person;
 use PHPUnit\Framework\TestCase;
 
