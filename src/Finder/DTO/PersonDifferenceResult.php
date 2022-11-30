@@ -28,7 +28,7 @@ final class PersonDifferenceResult
     /**
      * @throws Exception
      */
-    public function getDifference(): ?int
+    public function getDifference(): int
     {
         return $this->secondPerson->getBirthDate()->getTimestamp() - $this->firstPerson->getBirthDate()->getTimestamp();
     }
