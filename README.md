@@ -1,3 +1,16 @@
+# Ramas solution to PHP Finder kata
+- Refactored and extracted code
+- Objects immutability
+- Refactored tests
+- Renamed classes
+- Introduced Enum class
+- Introduced filters
+- Updated PHP to 8.1
+
+**Used patterns:**
+- Strategy design pattern for filters
+- Factory design pattern to build filter
+
 # Introduction 
 
 Here is the bad news: the new developer you hired has written some terrible, atrocious code. 
