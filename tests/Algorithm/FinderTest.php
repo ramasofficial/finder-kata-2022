@@ -4,9 +4,9 @@ declare(strict_types = 1);
 
 namespace CodelyTV\FinderKataTest\Algorithm;
 
-use CodelyTV\FinderKata\Algorithm\PersonBirthdateDifferenceFinder;
-use CodelyTV\FinderKata\Algorithm\Difference;
-use CodelyTV\FinderKata\Algorithm\Person;
+use CodelyTV\FinderKata\Finder\PersonBirthdateDifferenceFinder;
+use CodelyTV\FinderKata\Finder\Option\Difference;
+use CodelyTV\FinderKata\Finder\Model\Person;
 use PHPUnit\Framework\TestCase;
 
 final class FinderTest extends TestCase
@@ -23,7 +23,7 @@ final class FinderTest extends TestCase
     /** @var Person */
     private $mike;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->sue = new Person('Sue', '1950-01-01');
         $this->greg = new Person('Greg', '1952-05-01');

@@ -2,8 +2,11 @@
 
 declare(strict_types=1);
 
-namespace CodelyTV\FinderKata\Algorithm;
+namespace CodelyTV\FinderKata\Finder;
 
+use CodelyTV\FinderKata\Finder\DTO\PersonDifferenceResult;
+use CodelyTV\FinderKata\Finder\Factory\DifferenceFilterFactory;
+use CodelyTV\FinderKata\Finder\Model\Person;
 use Exception;
 
 final class PersonBirthdateDifferenceFinder
@@ -22,7 +25,7 @@ final class PersonBirthdateDifferenceFinder
     /**
      * @throws Exception
      */
-    public function find(int $differenceType): PersonDifferenceResult
+    public function find(string $differenceType): PersonDifferenceResult
     {
         $personDifferencesResults = $this->getPersonBirthdateCalculationResults();
 
@@ -66,20 +69,18 @@ final class PersonBirthdateDifferenceFinder
         return $results;
     }
 
-    private function findDifference(int $differenceType, array $persons): PersonDifferenceResult
+    private function findDifference(string $differenceType, array $persons): PersonDifferenceResult
     {
         $personsDifferencesArray = [];
         foreach ($persons as $person) {
             $personsDifferencesArray[$person->getDifference()] = $person;
         }
 
-        // Sort it by keys
+        // Sorting by keys, because keys are difference number
         ksort($personsDifferencesArray);
 
-        if ($differenceType === Difference::CLOSEST) {
-            return array_values($personsDifferencesArray)[0];
-        }
-
-        return end($personsDifferencesArray);
+        return (new DifferenceFilterFactory())
+            ->build($differenceType)
+            ->filter($personsDifferencesArray);
     }
 }

@@ -3,11 +3,11 @@
     "description": "Incomprehensible Finder Refactoring Kata created by K. Scott Allen. PHP translation by CodelyTV.",
     "type": "project",
     "require": {
-        "php": "^7.0"
+        "php": "^8.1"
     },
     "require-dev": {
         "symfony/var-dumper": "^3.1",
-        "phpunit/phpunit": "^5.5",
+        "phpunit/phpunit": "^9.5",
         "jakub-onderka/php-parallel-lint": "^0.9"
     },
     "minimum-stability": "stable",
