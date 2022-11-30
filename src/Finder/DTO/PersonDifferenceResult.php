@@ -10,17 +10,17 @@ use Exception;
 final class PersonDifferenceResult
 {
     public function __construct(
-        private ?Person $firstPerson = null,
-        private ?Person $secondPerson = null
+        private Person $firstPerson,
+        private Person $secondPerson
     ) {
     }
 
-    public function getFirstPerson(): ?Person
+    public function getFirstPerson(): Person
     {
         return $this->firstPerson;
     }
 
-    public function getSecondPerson(): ?Person
+    public function getSecondPerson(): Person
     {
         return $this->secondPerson;
     }
@@ -30,10 +30,6 @@ final class PersonDifferenceResult
      */
     public function getDifference(): ?int
     {
-        if (!$this->firstPerson || !$this->secondPerson) {
-            return null;
-        }
-
         return $this->secondPerson->getBirthDate()->getTimestamp() - $this->firstPerson->getBirthDate()->getTimestamp();
     }
 }

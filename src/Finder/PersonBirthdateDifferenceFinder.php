@@ -12,29 +12,25 @@ use Exception;
 
 final class PersonBirthdateDifferenceFinder
 {
-    /** @var Person[] */
-    private $persons;
-
     /**
      * @param Person[] $persons
      */
-    public function __construct(array $persons)
+    public function __construct(private array $persons)
     {
-        $this->persons = $persons;
     }
 
     /**
      * @throws Exception
      */
-    public function find(Difference $difference): PersonDifferenceResult
+    public function find(Difference $difference): ?PersonDifferenceResult
     {
         $personDifferencesResults = $this->getPersonBirthdateDifferenceCalculationResults();
 
         if ($personDifferencesResults === []) {
-            return new PersonDifferenceResult();
+            return null;
         }
 
-        return $this->findDifference($difference, $personDifferencesResults);
+        return $this->findDifferenceByType($difference, $personDifferencesResults);
     }
 
     /**
@@ -67,7 +63,7 @@ final class PersonBirthdateDifferenceFinder
         return $results;
     }
 
-    private function findDifference(Difference $difference, array $persons): PersonDifferenceResult
+    private function findDifferenceByType(Difference $difference, array $persons): PersonDifferenceResult
     {
         $personsDifferencesArray = [];
         foreach ($persons as $person) {

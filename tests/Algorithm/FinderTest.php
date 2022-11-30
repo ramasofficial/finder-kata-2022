@@ -39,8 +39,7 @@ final class FinderTest extends TestCase
 
         $result = $finder->find(Difference::CLOSEST);
 
-        $this->assertEquals(null, $result->getFirstPerson());
-        $this->assertEquals(null, $result->getSecondPerson());
+        $this->assertNull($result);
     }
 
     /** @test */
@@ -52,8 +51,7 @@ final class FinderTest extends TestCase
 
         $result = $finder->find(Difference::CLOSEST);
 
-        $this->assertEquals(null, $result->getFirstPerson());
-        $this->assertEquals(null, $result->getSecondPerson());
+        $this->assertNull($result);
     }
 
     /** @test */
