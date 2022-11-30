@@ -8,117 +8,104 @@ use CodelyTV\FinderKata\Finder\PersonBirthdateDifferenceFinder;
 use CodelyTV\FinderKata\Finder\Enum\Difference;
 use CodelyTV\FinderKata\Finder\Model\Person;
 use Exception;
+use Generator;
 use PHPUnit\Framework\TestCase;
 
 final class PersonBirthdateDifferenceFinderTest extends TestCase
 {
-    private Person $sue;
-    private Person $greg;
-    private Person $sarah;
-    private Person $mike;
-
-    protected function setUp(): void
-    {
-        $this->sue = new Person('Sue', '1950-01-01');
-        $this->greg = new Person('Greg', '1952-05-01');
-        $this->sarah = new Person('Sarah', '1982-01-01');
-        $this->mike = new Person('Mike', '1979-01-01');
-    }
-
-    // TODO: rewrite tests with DATA PROVIDER
-
     /**
+     * @dataProvider finderDataProvider
      * @throws Exception
      */
-    public function testShouldReturnEmptyWhenGivenEmptyList(): void
-    {
-        $list = [];
+    public function testFinderWorksCorrect(
+        array $list,
+        ?array $expected,
+        Difference $difference
+    ): void {
         $finder = new PersonBirthdateDifferenceFinder($list);
 
-        $result = $finder->find(Difference::CLOSEST);
+        $result = $finder->find($difference);
 
-        $this->assertNull($result);
+        if (!$expected) {
+            $this->assertNull($result);
+            return;
+        }
+
+        $this->assertEquals($expected[0], $result->getFirstPerson());
+        $this->assertEquals($expected[1], $result->getSecondPerson());
     }
 
-    /**
-     * @throws Exception
-     */
-    public function testShouldReturnEmptyWhenGivenOnePerson(): void
+    public function finderDataProvider(): Generator
     {
-        $list = [];
-        $list[] = $this->sue;
-        $finder = new PersonBirthdateDifferenceFinder($list);
+        $sue = new Person('Sue', '1950-01-01');
+        $greg = new Person('Greg', '1952-05-01');
+        $sarah = new Person('Sarah', '1982-01-01');
+        $mike = new Person('Mike', '1979-01-01');
 
-        $result = $finder->find(Difference::CLOSEST);
+        yield 'Example should return empty when given empty list' => [
+            'list' => [],
+            'expected' => null,
+            'difference' => Difference::CLOSEST,
+        ];
 
-        $this->assertNull($result);
-    }
+        yield 'Example should return empty when given one person' => [
+            'list' => [
+                $sue,
+            ],
+            'expected' => null,
+            'difference' => Difference::CLOSEST,
+        ];
 
-    /**
-     * @throws Exception
-     */
-    public function testShouldReturnClosestTwoForTwoPeople(): void
-    {
-        $list = [];
-        $list[] = $this->sue;
-        $list[] = $this->greg;
-        $finder = new PersonBirthdateDifferenceFinder($list);
+        yield 'Example should return closest two for two people' => [
+            'list' => [
+                $sue,
+                $greg,
+            ],
+            'expected' => [
+                $sue,
+                $greg,
+            ],
+            'difference' => Difference::CLOSEST,
+        ];
 
-        $result = $finder->find(Difference::CLOSEST);
+        yield 'Example should return furthest two for two people' => [
+            'list' => [
+                $mike,
+                $greg,
+            ],
+            'expected' => [
+                $greg,
+                $mike,
+            ],
+            'difference' => Difference::FURTHEST,
+        ];
 
-        $this->assertEquals($this->sue, $result->getFirstPerson());
-        $this->assertEquals($this->greg, $result->getSecondPerson());
-    }
+        yield 'Example should return furthest two for four people' => [
+            'list' => [
+                $sue,
+                $sarah,
+                $mike,
+                $greg,
+            ],
+            'expected' => [
+                $sue,
+                $sarah,
+            ],
+            'difference' => Difference::FURTHEST,
+        ];
 
-    /**
-     * @throws Exception
-     */
-    public function testShouldReturnFurthestTwoForTwoPeople(): void
-    {
-        $list = [];
-        $list[] = $this->mike;
-        $list[] = $this->greg;
-        $finder = new PersonBirthdateDifferenceFinder($list);
-
-        $result = $finder->find(Difference::FURTHEST);
-
-        $this->assertEquals($this->greg, $result->getFirstPerson());
-        $this->assertEquals($this->mike, $result->getSecondPerson());
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function testShouldReturnFurthestTwoForFourPeople(): void
-    {
-        $list = [];
-        $list[] = $this->sue;
-        $list[] = $this->sarah;
-        $list[] = $this->mike;
-        $list[] = $this->greg;
-        $finder = new PersonBirthdateDifferenceFinder($list);
-
-        $result = $finder->find(Difference::FURTHEST);
-
-        $this->assertEquals($this->sue, $result->getFirstPerson());
-        $this->assertEquals($this->sarah, $result->getSecondPerson());
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function testShouldReturnClosestTwoForFourPeople(): void
-    {
-        $list = [];
-        $list[] = $this->sue;
-        $list[] = $this->sarah;
-        $list[] = $this->mike;
-        $list[] = $this->greg;
-        $finder = new PersonBirthdateDifferenceFinder($list);
-
-        $result = $finder->find(Difference::CLOSEST);
-
-        $this->assertEquals($this->sue, $result->getFirstPerson());
-        $this->assertEquals($this->greg, $result->getSecondPerson());
+        yield 'Example should return closest two for four people' => [
+            'list' => [
+                $sue,
+                $sarah,
+                $mike,
+                $greg,
+            ],
+            'expected' => [
+                $sue,
+                $greg,
+            ],
+            'difference' => Difference::CLOSEST,
+        ];
     }
 }
